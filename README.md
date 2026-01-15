@@ -7,6 +7,8 @@ TerminalLib is a small library for gives a litle of style for that terminal so n
 
 # Java ☕
 
+# Ruby 💎
+
 # How can i install it?
 Clone repository -> if you want to have both languages
 ```c 
