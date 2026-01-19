@@ -114,4 +114,38 @@ def print_centralizedText(text):
  
         print(' ' * padding + line)
 
-        
+#
+#  rainbow loading
+#   
+    
+def rainbow_loading(Text,DotNum):
+    maxDots = DotNum
+    space = " "
+    colors = [
+        "\033[31m",
+        "\033[33m",
+        "\033[32m",
+        "\033[36m",
+        "\033[34m",
+        "\033[35m",
+    ]
+
+    currentLength = 1
+    colorIndex = 0
+
+    while True:
+        dots = "." * currentLength
+        color = colors[colorIndex]
+
+        sys.stdout.write("\r" + color + Text + space +  dots + "\033[0m")
+        sys.stdout.flush()
+
+        time.sleep(0.3)
+
+        currentLength += 1
+        if currentLength > maxDots:
+            currentLength = 1
+
+        colorIndex = (colorIndex + 1) % len(colors)
+
+
