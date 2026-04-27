@@ -1,25 +1,44 @@
-require 'io/console'
+require "io/console"
 
-#
-# CLEAR TERMINAL
-#
-def clear_all
-  print "\e[H\e[2J"
-  $stdout.flush
+# -------------------------------------------------
+# UTILS
+# -------------------------------------------------
+
+def tty?
+  STDOUT.tty?
 end
 
-#
+def reset_style
+  print "\e[0m"
+  STDOUT.flush
+end
+
+# -------------------------------------------------
+# CLEAR TERMINAL
+# -------------------------------------------------
+
+def clear_all
+  return unless tty?
+  print "\e[H\e[2J"
+end
+
+# -------------------------------------------------
 # WAIT ENTER AND CLEAR
-#
+# -------------------------------------------------
+
 def wait_enter_clear(prompt = "\n\nPress Enter...")
   print prompt
   STDIN.gets
-  print "\e[F\e[K"
+  if tty?
+    print "\e[F\e[K"
+    STDOUT.flush
+  end
 end
 
-#
+# -------------------------------------------------
 # COLORS
-#
+# -------------------------------------------------
+
 module Colors
   RESET  = "\e[0m"
   BLACK  = "\e[30m"
@@ -32,75 +51,139 @@ module Colors
   WHITE  = "\e[37m"
 end
 
-#
-# READ RESPONSE FROM USER
-#
-def read_int(min_value:, max_value:)
+# -------------------------------------------------
+# READ INTEGER INPUT
+# -------------------------------------------------
+
+def read_int(min, max)
+  raise "read_int requires an interactive terminal" unless STDIN.tty?
+
   loop do
-    user_input = STDIN.gets.chomp
-
-    unless user_input.match?(/\A\d+\z/)
-      print "\e[F\e[K"
+    input = STDIN.gets&.strip
+    unless input&.match?(/^\d+$/)
+      clear_last_line
       next
     end
 
-    choice = user_input.to_i
-
-    if choice < min_value || choice > max_value
-      print "\e[F\e[K"
+    value = input.to_i
+    if value < min || value > max
+      clear_last_line
       next
     end
 
-    return choice
+    return value
   end
 end
 
-#
+def clear_last_line
+  print "\e[F\e[K"
+  STDOUT.flush
+end
+
+# -------------------------------------------------
 # TYPEWRITE
-#
+# -------------------------------------------------
+
 def typewrite(text, speed = 0.03)
-  text.each_char do |char|
-    print char
-    $stdout.flush
+  text.each_char do |c|
+    print c
+    STDOUT.flush
     sleep speed
   end
   puts
 end
 
-#
+# -------------------------------------------------
 # PROGRESS BAR
-#
+# -------------------------------------------------
+
 def print_progress_bar(current, total, bar_length = 20)
-  progress = current.to_f / total
-  filled_length = (bar_length * progress).to_i
-  bar = '∎' * filled_length + '.' * (bar_length - filled_length)
-  por = progress * 100
+  return unless tty?
+  return if total <= 0
 
-  print "\r[#{bar}] #{'%.2f' % por}% #{current}/#{total} :) "
-  $stdout.flush
+  progress = [current.to_f / total, 1.0].min
+  filled = (bar_length * progress).to_i
+  bar = "∎" * filled + "." * (bar_length - filled)
+  percent = progress * 100
 
-  puts if current == total
+  print "\r[#{bar}] #{format('%.2f', percent)}% #{current}/#{total}"
+  STDOUT.flush
+
+  puts if current >= total
 end
 
-#
-# PRINT CENTRALIZED TEXT
-#
+# -------------------------------------------------
+# CENTERED TEXT
+# -------------------------------------------------
 
-def terminal_width
-  IO.console.winsize[1]
-rescue
-  80
+def print_centered_text(text)
+  unless tty?
+    puts text
+    return
+  end
+
+  width = IO.console.winsize[1]
+  text.split("\n").each do |line|
+    clean = line.gsub(/\e\[[0-9;]*[A-Za-z]/, "")
+    padding = [(width - clean.length) / 2, 0].max
+    puts " " * padding + line
+  end
 end
 
-def strip_ansi_codes(text)
-  text.gsub(/\e\[[0-9;]*[A-Za-z]/, '')
+# -------------------------------------------------
+# RAINBOW LOADING
+# -------------------------------------------------
+
+def rainbow_loading(text, max_dots, stop, speed = 0.3)
+  return unless tty?
+
+  colors = [
+    Colors::RED,
+    Colors::YELLOW,
+    Colors::GREEN,
+    Colors::CYAN,
+    Colors::BLUE,
+    Colors::PURPLE
+  ]
+
+  dots = 1
+  color_index = 0
+
+  begin
+    until stop.call
+      print "\r#{colors[color_index]}#{text} #{'.' * dots}#{Colors::RESET}"
+      STDOUT.flush
+      sleep speed
+
+      dots += 1
+      dots = 1 if dots > max_dots
+      color_index = (color_index + 1) % colors.size
+    end
+  ensure
+    reset_style
+    puts
+  end
 end
 
-def print_centralized_text(text)
-  term_width = terminal_width
-  text.lines.each do |line|
-    clean_line = strip_ansi_codes(line.chomp)
-    padding = [(term_width - clean_line.length) / 2, 0].max
-    puts ' ' * padding + line.chomp
+# -------------------------------------------------
+# SPINNER
+# -------------------------------------------------
+
+def spin_bar(stop, speed = 0.1)
+  return unless tty?
+
+  bars = ["|", "/", "-", "\\"]
+  index = 0
+
+  begin
+    until stop.call
+      print "\r#{bars[index]}"
+      STDOUT.flush
+      sleep speed
+      index = (index + 1) % bars.size
+    end
+  ensure
+    reset_style
+    puts
   end
 end
