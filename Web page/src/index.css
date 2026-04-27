@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Terminal dark theme */
+    --background: 230 20% 6%;
+    --foreground: 180 15% 92%;
+
+    --card: 230 20% 8%;
+    --card-foreground: 180 15% 92%;
+
+    --popover: 230 20% 8%;
+    --popover-foreground: 180 15% 92%;
+
+    --primary: 180 100% 55%;            /* cyan */
+    --primary-foreground: 230 30% 6%;
+    --primary-glow: 180 100% 70%;
+
+    --accent: 320 100% 65%;             /* magenta */
+    --accent-foreground: 230 30% 6%;
+
+    --secondary: 140 80% 55%;           /* terminal green */
+    --secondary-foreground: 230 30% 6%;
+
+    --muted: 230 15% 14%;
+    --muted-foreground: 220 10% 62%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 230 18% 16%;
+    --input: 230 18% 14%;
+    --ring: 180 100% 55%;
+
+    --radius: 0.75rem;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(180 100% 55%), hsl(320 100% 65%));
+    --gradient-soft: linear-gradient(135deg, hsl(180 100% 55% / 0.15), hsl(320 100% 65% / 0.15));
+    --gradient-terminal: linear-gradient(180deg, hsl(230 25% 8%), hsl(230 25% 5%));
+    --gradient-rainbow: linear-gradient(90deg,
+      hsl(0 100% 65%), hsl(40 100% 60%), hsl(140 90% 55%),
+      hsl(180 100% 55%), hsl(260 100% 70%), hsl(320 100% 65%));
+
+    /* Shadows / glows */
+    --glow-primary: 0 0 40px hsl(180 100% 55% / 0.4);
+    --glow-accent: 0 0 40px hsl(320 100% 65% / 0.4);
+    --shadow-terminal: 0 30px 80px -20px hsl(180 100% 55% / 0.25), 0 10px 30px -10px hsl(0 0% 0% / 0.6);
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body {
+    @apply bg-background text-foreground font-sans;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 20% 0%, hsl(180 100% 55% / 0.08), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 100%, hsl(320 100% 65% / 0.08), transparent 60%);
+    background-attachment: fixed;
+  }
+  .font-mono { font-family: ui-monospace, "JetBrains Mono", "Fira Code", Menlo, monospace; }
+}
+
+@layer utilities {
+  .text-gradient-primary {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .text-gradient-rainbow {
+    background: var(--gradient-rainbow);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .glow-primary { box-shadow: var(--glow-primary); }
+  .glow-accent  { box-shadow: var(--glow-accent); }
+  .shadow-terminal { box-shadow: var(--shadow-terminal); }
+  .bg-gradient-soft { background: var(--gradient-soft); }
+  .bg-gradient-terminal { background: var(--gradient-terminal); }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(hsl(180 100% 55% / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(180 100% 55% / 0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Caret blink */
+  .caret::after {
+    content: "▌";
+    margin-left: 2px;
+    animation: caret-blink 1s step-end infinite;
+    color: hsl(var(--primary));
+  }
+  @keyframes caret-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* Float */
+  @keyframes float-soft {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .animate-float { animation: float-soft 4s ease-in-out infinite; }
+
+  /* Scanlines */
+  .scanlines::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 2px,
+      hsl(0 0% 0% / 0.15) 3px,
+      transparent 4px
+    );
+    pointer-events: none;
+    border-radius: inherit;
+  }
+}
