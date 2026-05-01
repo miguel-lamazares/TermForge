@@ -506,6 +506,84 @@ def beep():
 
 
 #
+#   BLEND TEXT
+#
+
+def blend_text(text, colors):
+    """
+    Render text blending through multiple RGB colors.
+
+    Example:
+        print(blend_text("TerminalLib", [(255, 0, 0), (0, 255, 0), (0, 0, 255)]))
+
+    Also accepts hex:
+        print(blend_text("TerminalLib", ["#ff0000", "#00ff00", "#0000ff"]))
+    """
+
+    if not text:
+        return ""
+
+    if not colors or len(colors) < 2:
+        raise ValueError("colors must contain at least two colors")
+
+    PRESET_COLORS = {
+    "black": (0, 0, 0),
+    "red": (255, 0, 0),
+    "green": (0, 255, 0),
+    "yellow": (255, 255, 0),
+    "blue": (0, 0, 255),
+    "purple": (180, 0, 255),
+    "cyan": (0, 255, 255),
+    "white": (255, 255, 255),
+}
+
+    def normalize_color(c):
+        # HEX
+        if isinstance(c, str) and c.startswith("#"):
+            h = c.lstrip("#")
+            return (
+                int(h[0:2], 16),
+                int(h[2:4], 16),
+                int(h[4:6], 16),
+            )
+
+        # PRESET (string tipo "red")
+        if isinstance(c, str):
+            if c.lower() in PRESET_COLORS:
+                return PRESET_COLORS[c.lower()]
+            raise ValueError(f"Unknown color preset: {c}")
+
+        # RGB tuple
+        if isinstance(c, tuple) and len(c) == 3:
+            return c
+
+        raise ValueError(f"Invalid color: {c}")
+
+    colors = [normalize_color(c) for c in colors]
+
+    out = ""
+    n = max(len(text) - 1, 1)
+    segments = len(colors) - 1
+
+    for i, ch in enumerate(text):
+        t = i / n
+        segment = min(int(t * segments), segments - 1)
+        local_t = (t * segments) - segment
+
+        c1 = colors[segment]
+        c2 = colors[segment + 1]
+
+        r = int(c1[0] + (c2[0] - c1[0]) * local_t)
+        g = int(c1[1] + (c2[1] - c1[1]) * local_t)
+        b = int(c1[2] + (c2[2] - c1[2]) * local_t)
+
+        out += f"{RGB.fg(r, g, b)}{ch}"
+
+    return out + Style.RESET
+
+
+
+#
 # DEMO
 #
 

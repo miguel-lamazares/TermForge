@@ -142,6 +142,7 @@ glitch("LET'S GO", duration: 1.0)
 | Validated input          |     ✅    |   ✅   |   ✅   |
 | Interactive arrow menus  |     ✅    |   —    |   ✅   |
 | Beep                     |     ✅    |   ✅   |   ✅   |
+|Blend text            |  ✅       |   —    |   —    |
 
 ---
 
