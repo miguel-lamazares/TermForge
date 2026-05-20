@@ -8,8 +8,8 @@ interface Line {
 }
 
 const SCRIPT: Line[] = [
-  { prompt: "$", text: "python Terminal.py", className: "text-foreground" },
-  { text: "✦ TerminalLib · Python · v2 ✦", className: "text-gradient-rainbow font-bold" },
+  { prompt: "$", text: "python termforge.py", className: "text-foreground" },
+  { text: "✦ TermForge · Python · v2 ✦", className: "text-gradient-rainbow font-bold" },
   { text: "────────────────────────────────────────────", className: "text-muted-foreground" },
   { text: "╭──────────────────────────────╮", className: "text-primary" },
   { text: "│  Your terminal               │", className: "text-primary" },
@@ -41,7 +41,7 @@ export const TerminalDemo = () => {
         <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
         <span className="w-3 h-3 rounded-full bg-secondary/80" />
         <span className="ml-3 text-xs text-muted-foreground font-mono">
-          ~/projects/terminal-lib — demo
+          ~/projects/termforge — demo
         </span>
       </div>
 

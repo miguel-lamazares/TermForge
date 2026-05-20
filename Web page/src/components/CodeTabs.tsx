@@ -7,7 +7,7 @@ const SNIPPETS: Record<Lang, { label: string; icon: string; code: string }> = {
   python: {
     label: "Python",
     icon: "🐍",
-    code: `from Terminal import (
+    code: `from termforge import (
     Clear_all, rainbow_text, gradient_text,
     box, Spinner, glitch, wave, RGB, menu
 )
@@ -26,25 +26,25 @@ glitch("LET'S GO", duration=1.0)`,
   java: {
     label: "Java",
     icon: "☕",
-    code: `TerminalLib.clearAll();
-System.out.println(TerminalLib.rainbowText("Welcome!"));
-System.out.println(TerminalLib.box(
+    code: `TermForge.clearAll();
+System.out.println(TermForge.rainbowText("Welcome!"));
+System.out.println(TermForge.box(
     "Choose wisely.", "rounded", 1,
-    TerminalLib.RGB.fg(0, 220, 255)));
+    TermForge.RGB.fg(0, 220, 255)));
 
-TerminalLib.Spinner sp = new TerminalLib.Spinner(
-    "Loading", TerminalLib.Spinner.DOTS, null
+TermForge.Spinner sp = new TermForge.Spinner(
+    "Loading", TermForge.Spinner.DOTS, null
 ).start();
 heavyWork();
 sp.stop();
 
-TerminalLib.glitch("LET'S GO", 1000, 0.3);
-TerminalLib.wave("~ have fun ~", 2, 50);`,
+TermForge.glitch("LET'S GO", 1000, 0.3);
+TermForge.wave("~ have fun ~", 2, 50);`,
   },
   ruby: {
     label: "Ruby",
     icon: "💎",
-    code: `require_relative 'Terminal'
+    code: `require_relative 'TermForge'
 
 clear_all
 puts rainbow_text("Welcome!")

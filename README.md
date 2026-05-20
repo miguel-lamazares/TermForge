@@ -1,6 +1,6 @@
 <div align="center">
 
-# ✦ TerminalLib ✦
+# ✦ TermForge ✦
 
 ### *Your terminal doesn't need to be ugly.*
 
@@ -17,7 +17,7 @@ A tiny, dependency-free library that brings **colors, cursor magic, animations a
 
 ## 🎯 What is it?
 
-**TerminalLib** is a small, friendly toolkit for building CLI applications that *don't look like they were made in 1985*. It gives you a curated set of helpers for:
+**TermForge** is a small, friendly toolkit for building CLI applications that *don't look like they were made in 1985*. It gives you a curated set of helpers for:
 
 - 🎨 **Colors** — basic ANSI, 256-color and full **24-bit RGB / hex / gradients / rainbow**
 - 🖱️ **Cursor control** — hide, show, move, save, restore, jump anywhere
@@ -36,8 +36,8 @@ All three implementations expose **the same mental model**, so jumping between l
 ### 🐍 Python
 
 \`\`\`bash
-git clone https://github.com/miguel-lamazares/TerminalLib.git
-cd TerminalLib
+git clone https://github.com/miguel-lamazares/TermForge.git
+cd TermForge
 pip install -e .
 \`\`\`
 
@@ -55,7 +55,7 @@ pip install -e .
 
 <dependency>
   <groupId>com.github.miguel-lamazares</groupId>
-  <artifactId>TerminalLib</artifactId>
+  <artifactId>TermForge</artifactId>
   <version>v2.0.0</version>
 </dependency>
 \`\`\`
@@ -63,7 +63,7 @@ pip install -e .
 ### 💎 Ruby
 
 \`\`\`bash
-git clone https://github.com/miguel-lamazares/TerminalLib.git
+git clone https://github.com/miguel-lamazares/TermForge.git
 # then in your script:
 require_relative 'Terminal'
 \`\`\`
@@ -94,17 +94,17 @@ glitch("LET'S GO", duration=1.0)
 ### Java
 
 \`\`\`java
-TerminalLib.clearAll();
-System.out.println(TerminalLib.rainbowText("Welcome!"));
-System.out.println(TerminalLib.box("Choose wisely.", "rounded", 1,
-        TerminalLib.RGB.fg(0, 220, 255)));
+TermForge.clearAll();
+System.out.println(TermForge.rainbowText("Welcome!"));
+System.out.println(TermForge.box("Choose wisely.", "rounded", 1,
+        TermForge.RGB.fg(0, 220, 255)));
 
-TerminalLib.Spinner sp = new TerminalLib.Spinner(
-        "Loading", TerminalLib.Spinner.MOON, null).start();
+TermForge.Spinner sp = new TermForge.Spinner(
+        "Loading", TermForge.Spinner.MOON, null).start();
 heavyWork();
 sp.stop();
 
-TerminalLib.glitch("LET'S GO", 1000, 0.3);
+TermForge.glitch("LET'S GO", 1000, 0.3);
 \`\`\`
 
 ### Ruby
@@ -151,7 +151,7 @@ glitch("LET'S GO", duration: 1.0)
 \`\`\`bash
 python  Terminal.py
 ruby    Terminal.rb
-javac   TerminalLib.java && java TerminalLib
+javac   TermForge.java && java TermForge
 \`\`\`
 
 ---
