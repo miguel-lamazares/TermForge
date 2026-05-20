@@ -143,7 +143,7 @@ glitch("LET'S GO", duration: 1.0)
 | Interactive arrow menus  |     ✅    |   —    |   ✅   |
 | Beep                     |     ✅    |   ✅   |   ✅   |
 |Blend text            |  ✅       |   —    |   —    |
-
+| Animation on terminal | — | ✅ | — |
 ---
 
 ## 🧪 Run the demos

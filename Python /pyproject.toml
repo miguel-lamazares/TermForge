@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "TerminalLib"
+name = "termforge"
 version = "0.1.0"
 description = "Personal terminal utilities"
 authors = [{ name = "Dex" }]
